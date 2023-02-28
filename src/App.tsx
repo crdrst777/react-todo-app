@@ -21,8 +21,8 @@ a {
 }
 button{
   cursor: pointer;
-  border: none;
-  padding: 0;
+  /* border: none;
+  padding: 0; */
 }
 `;
 
