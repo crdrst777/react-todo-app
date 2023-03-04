@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
-import { toDoState } from "../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { categoryState, toDoState } from "../atoms";
 
 // input들의 타입
 interface IForm {
@@ -9,11 +9,12 @@ interface IForm {
 
 const CreateToDo = () => {
   const setToDos = useSetRecoilState(toDoState);
+  const category = useRecoilValue(categoryState);
   const { register, handleSubmit, setValue } = useForm<IForm>();
   // { toDo } === data.toDo // input에 입력된 값
   const handleValid = ({ toDo }: IForm) => {
     setToDos((oldToDos) => [
-      { text: toDo, id: Date.now(), category: "TO_DO" },
+      { text: toDo, id: Date.now(), category }, // category: category -> category
       ...oldToDos,
     ]); // setter 함수인 setToDos() 안에 함수를 쓰면 그 함수의 리턴값이 새로운 state가 됨.
     setValue("toDo", "");
