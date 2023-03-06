@@ -1,5 +1,8 @@
 import { atom, selector } from "recoil";
 
+let localData = JSON.parse(localStorage.getItem("toDos" || "[]")!);
+// Non-null assertion operator. 접미에 붙는 느낌표(!) 연산자인 단언 연산자는 해당 피연산자가 null, undeifned가 아니라고 단언해줌
+
 // type categories = "TO_DO" | "DOING" | "DONE";
 
 // enum은 프로그래머를 도와주기 위해 일련의 숫자를 문자로 표현해준다. 그치만 아래와같이 해주면 string이 됨.
@@ -24,7 +27,7 @@ export const categoryState = atom<Categories>({
 
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
-  default: [],
+  default: localData,
 });
 
 // toDoSelector는 사용자가 '현재 선택한 카테고리의 toDo목록'을 리턴한다. 빈[]이거나, [{…}, {…}, {…}, {…}] 이런 형태

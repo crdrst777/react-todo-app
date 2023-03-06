@@ -7,8 +7,6 @@ import ToDo from "./ToDo";
 // handleSubmit을 useForm에서 가져온 다음에 그걸 호출해야 함.
 // 그러면 handleSubmit함수가 data를 검사하고, 유효하다면 내가 만든 함수(handleValid())를 호출할거임.
 function ToDoList() {
-  // const toDos = useRecoilValue(toDoState); // setState과 유사함.
-  // console.log(toDos);
   // const [toDo, doing, done] = useRecoilValue(toDoSelector); // toDoSelector가 배열을 리턴하도록 해놨기때문에, 안에 있는 3 배열을 꺼내기 위해, 배열을 여는거임.
 
   // 사용자가 현재 선택한 카테고리의 toDo목록. 빈[]이거나, [{…}, {…}, {…}, {…}] 이런 형태

@@ -1,9 +1,10 @@
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Categories, IToDo, toDoState } from "../atoms";
 import styled from "styled-components";
 
 // 수정하고 싶은 todo의 id를 받아옴.
 const ToDo = ({ text, category, id }: IToDo) => {
+  const toDos = useRecoilValue(toDoState); // setState과 유사함.
   const setToDos = useSetRecoilState(toDoState);
 
   const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -26,14 +27,14 @@ const ToDo = ({ text, category, id }: IToDo) => {
     });
 
     // splice를 이용한 방법
-    setToDos((oldToDos) => {
-      const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
-      const newToDo = { text, id, category: name as IToDo["category"] };
-      console.log(newToDo);
-      const newToDos = [...oldToDos]; // create new array
-      newToDos.splice(targetIndex, 1, newToDo); // 해당 인덱스 자리의 요소를 지우고 newToDo로 채움
-      return newToDos;
-    });
+    // setToDos((oldToDos) => {
+    //   const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
+    //   const newToDo = { text, id, category: name as IToDo["category"] };
+    //   console.log(newToDo);
+    //   const newToDos = [...oldToDos]; // create new array
+    //   newToDos.splice(targetIndex, 1, newToDo); // 해당 인덱스 자리의 요소를 지우고 newToDo로 채움
+    //   return newToDos;
+    // });
 
     // 또다른 방법
     // setToDos((prev) =>
@@ -46,18 +47,14 @@ const ToDo = ({ text, category, id }: IToDo) => {
     // );
   };
 
-  const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const {
-      currentTarget: { name },
-    } = event;
-
-    setToDos((oldToDos) => {
-      const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id); // 클릭한 todo의 인덱스
-      return [
-        ...oldToDos.slice(0, targetIndex),
-        ...oldToDos.slice(targetIndex + 1),
-      ];
-    });
+  const handleDeleteClick = () => {
+    const newToDos = toDos.filter((toDo) => toDo.id !== id);
+    setToDos(newToDos);
+    localStorage.setItem("toDos", JSON.stringify(newToDos));
+    // setToDos((oldToDos) => {
+    //   const newToDos = oldToDos.filter((toDo) => toDo.id !== id);
+    //   return newToDos;
+    // });
   };
 
   return (
