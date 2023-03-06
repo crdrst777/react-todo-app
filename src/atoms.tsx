@@ -37,6 +37,7 @@ export const toDoSelector = selector({
   },
 });
 // get func(메서드)은 보다시피 인자로 객체를 받는데, 그 객체에는 get func이 들어가있음.
-// get 이 return하는 값이 toDoSelector의 value가 될것임.
+// get 이 return하는 값이 selector의 value가 될것임.
 // filter()는 조건에 참인 요소들만으로 이루어진 새 배열을 리턴한다.
 // toDos -> 카테고리에 상관없이 순서대로 쌓인 toDo목록. 빈[]이거나, [{…}, {…}, {…}, {…}] 이런 형태
+// selector 덕분에 toDo가 컴포넌트에 오기도 전에 이미 변형됨.

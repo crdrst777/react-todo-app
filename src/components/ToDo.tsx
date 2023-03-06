@@ -1,10 +1,11 @@
 import { useSetRecoilState } from "recoil";
 import { Categories, IToDo, toDoState } from "../atoms";
+import styled from "styled-components";
 
 // 수정하고 싶은 todo의 id를 받아옴.
 const ToDo = ({ text, category, id }: IToDo) => {
   const setToDos = useSetRecoilState(toDoState);
-  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     // console.log(event.currentTarget.name);  아래 코드와 같음.
     const {
       currentTarget: { name },
@@ -48,29 +49,49 @@ const ToDo = ({ text, category, id }: IToDo) => {
     // );
   };
 
+  const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {};
+
   return (
     <>
-      <li>
-        <span>{text}</span>
-        {category !== Categories.DOING && (
-          <button name={Categories.DOING} onClick={onClick}>
-            Doing
-          </button>
-        )}
-        {category !== Categories.TO_DO && (
-          <button name={Categories.TO_DO} onClick={onClick}>
-            To Do
-          </button>
-        )}
-        {category !== Categories.DONE && (
-          <button name={Categories.DONE} onClick={onClick}>
-            Done
-          </button>
-        )}
-        {/* category가 "DONE"이 아닐때만, "DONE"버튼을 보여준다. -> "DONE"이면 그외의 버튼을 보여준다. */}
-      </li>
+      <Container>
+        <Text>{text}</Text>
+
+        <BtnContainer>
+          {category !== Categories.DOING && (
+            <button name={Categories.DOING} onClick={handleCategoryClick}>
+              Doing
+            </button>
+          )}
+          {category !== Categories.TO_DO && (
+            <button name={Categories.TO_DO} onClick={handleCategoryClick}>
+              To Do
+            </button>
+          )}
+          {category !== Categories.DONE && (
+            <button name={Categories.DONE} onClick={handleCategoryClick}>
+              Done
+            </button>
+          )}
+          {/* category가 "DONE"이 아닐때만, "DONE"버튼을 보여준다. -> "DONE"이면 그외의 버튼을 보여준다. */}
+          <button onClick={handleDeleteClick}>Delete</button>
+        </BtnContainer>
+      </Container>
     </>
   );
 };
 
 export default ToDo;
+
+const Container = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+`;
+
+const Text = styled.div`
+  width: 290px;
+  word-break: break-all;
+  white-space: pre-wrap;
+`;
+
+const BtnContainer = styled.div``;

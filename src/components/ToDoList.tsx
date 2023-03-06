@@ -1,5 +1,6 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Categories, categoryState, toDoSelector } from "../atoms";
+import styled from "styled-components";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
@@ -16,29 +17,43 @@ function ToDoList() {
   const onInput = (evnet: React.FormEvent<HTMLSelectElement>) => {
     setCategory(evnet.currentTarget.value as Categories);
   };
+  // category atom은 이 select의 onInput함수에서 수정되고 있음. onInput함수는 select 태그의 value를 가져다가 setCategory함수에 넣어주고 있음.
   console.log(toDos);
 
   return (
     <>
-      <h1>To Dos</h1>
-      <hr />
-      {/* select value는 default value */}
-      <select value={category} onInput={onInput}>
-        <option value={Categories.TO_DO}>To Do</option>
-        <option value={Categories.DOING}>Doing</option>
-        <option value={Categories.DONE}>Done</option>
-      </select>
-      <CreateToDo />
-      {/* 사용자가 '현재 선택한 카테고리의 toDo목록'을 랜더링 */}
-      {toDos.map((toDo) => (
-        <ToDo
-          key={toDo.id}
-          text={toDo.text}
-          id={toDo.id}
-          category={toDo.category}
-        />
-      ))}
-      {/* <h2>To Do</h2>
+      <Container>
+        <Header>
+          <h1>To Do List</h1>
+        </Header>
+        <hr />
+
+        <CreateAndSelectContainer>
+          <CreateToDo />
+          {/* select value는 default value */}
+          <select value={category} onInput={onInput}>
+            <option value={Categories.TO_DO}>To Do</option>
+            <option value={Categories.DOING}>Doing</option>
+            <option value={Categories.DONE}>Done</option>
+          </select>
+        </CreateAndSelectContainer>
+
+        <hr />
+        <ToDosContainer>
+          {/* 사용자가 '현재 선택한 카테고리의 toDo목록'을 랜더링 */}
+          {toDos.map((toDo) => (
+            <>
+              <ToDo
+                key={toDo.id}
+                text={toDo.text}
+                id={toDo.id}
+                category={toDo.category}
+              />
+            </>
+          ))}
+        </ToDosContainer>
+
+        {/* <h2>To Do</h2>
       <ul>
         {toDo.map((toDo) => (
           <ToDo
@@ -64,8 +79,42 @@ function ToDoList() {
         ))}
       </ul>
       <hr /> */}
+      </Container>
     </>
   );
 }
 
 export default ToDoList;
+
+const Container = styled.div`
+  max-width: 480px;
+  margin: 0 auto;
+
+  hr {
+    margin: 0;
+    background: gray;
+    height: 1px;
+    border: 0;
+  }
+`;
+
+const Header = styled.header`
+  height: 19vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 18px;
+  }
+`;
+
+const CreateAndSelectContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+`;
+
+const ToDosContainer = styled.div`
+  padding: 40px 0;
+`;

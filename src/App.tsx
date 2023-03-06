@@ -24,6 +24,9 @@ button{
   /* border: none;
   padding: 0; */
 }
+li {
+  list-style: none;
+}
 `;
 
 function App() {
